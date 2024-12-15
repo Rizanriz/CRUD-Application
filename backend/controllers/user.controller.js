@@ -14,10 +14,8 @@ export const create = async (req,res) =>{
 }
 export const getData = async (req,res) =>{
 
-    const {users} = req.body
-
     try {
-        const listofdata = await userModel.find({users})
+        const listofdata = await userModel.find()
         
         res.status(200).json({message:"list of datas",listofdata})
     } catch (error) {
@@ -27,14 +25,29 @@ export const getData = async (req,res) =>{
     }
 }
 
+export const getOneNote = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const note = await userModel.findById(id);
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+    res.status(200).json({ message: "Note found", note });
+  } catch (error) {
+    res.status(400).json({ message: "Error fetching note" });
+    console.error(error);
+  }
+};  
+
 export const updateData = async (req,res) =>{
 
     const {id} = req.params
     const {text} = req.body
 
     try {
-        let updateData = await userModel.findByIdAndUpdate({_id:id})
-
+        const updatedData = await userModel.findByIdAndUpdate(id,{ text },
+            { new: true } 
+        )
         res.status(200).json({message:"text updated"})
     } catch (error) {
         res.status(400).json({message:"error in updating test"})
@@ -44,8 +57,9 @@ export const updateData = async (req,res) =>{
 export const deleteData = async (req,res) =>{
 
     const {id} = req.params
+
     try {
-        const deleteData = await userModel.findByIdAndDelete({_id:id})
+        const deleteData = await userModel.findByIdAndDelete(id)
 
         res.status(200).json({message:"text deleted"})
     } catch (error) {
