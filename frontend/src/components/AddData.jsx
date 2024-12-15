@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
- import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const AddData = () => {
   const [input, setInput] = useState("");
@@ -10,7 +10,7 @@ const AddData = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:5000/get");
-        SetData(response.data.listofdata || []);   
+        SetData(response.data.listofdata || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -55,21 +55,21 @@ const AddData = () => {
         </button>
 
         <div className="mt-10">
-        <h2 className="text-center font-extrabold">Notes</h2>
-        {data.map((note) => (
-          <div key={note._id} className="flex items-center justify-between gap-3 my-3">
-            <p className="text-black">{note.text}</p>
-           <div>
-           <button
-              className="p-2 bg-red-500 text-black"
-              onClick={() => handleDelete(note._id)}
-            >Delete
-            </button>
-            <Link to={`/edit/${note._id}`} className="p-2 bg-blue-500 text-black ms-3">edit</Link>
-           </div>
-          </div>
-        ))}
-      </div>
+          <h2 className="text-center font-extrabold">Notes</h2>
+          {data.map((note) => (
+            <div key={note._id} className="flex items-center justify-between gap-3 my-3">
+              <p className="text-black">{note.text}</p>
+              <div>
+                <button
+                  className="p-2 bg-red-500 text-black"
+                  onClick={() => handleDelete(note._id)}
+                >Delete
+                </button>
+                <Link to={`/edit/${note._id}`} className="p-2 bg-blue-500 text-black ms-3">edit</Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
